@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id("org.sonarqube") version "6.1.0.5360"
+}
+
+group = 'kr.co.mhnt'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.token", "sqp_d90cb2bcc6520609b2ef32ea0e1469c453a914b0"
+        property "sonar.projectKey", "s100ai"
+        property "sonar.java.binaries", "build/classes/java/main"
+        property "sonar.exclusions", "**/test/**"
+    }
+}
+
+dependencies {
+
+    // https://mvnrepository.com/artifact/org.sonarsource.sonarqube/sonar-plugin-api
+    compileOnly 'org.sonarsource.sonarqube:sonar-plugin-api:9.4.0.54424'
+    // https://mvnrepository.com/artifact/org.sonarsource.java/sonar-java-plugin
+    compileOnly 'org.sonarsource.java:sonar-java-plugin:8.11.0.38440'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
