@@ -10,14 +10,15 @@ repositories {
     mavenCentral()
 }
 
+// sonarqube 가 해당 jar 를 플러그인 등록하는데 쓰이는 정보 입력
 jar {
     manifest {
         attributes(
-                'Plugin-Class': 'sonar.CustomRulesPlugin',
-                'Plugin-Key': 'bj.sonar', // 플러그인 고유 키 지정
-                'Plugin-Version': version,              // 버전 정보
-                'Plugin-Name': 'My Custom Sonar Plugin',  // 플러그인 이름
-                'Plugin-RequiredForLanguages': 'java' // 🔥
+                'Plugin-Class': 'sonar.CustomRulesPlugin',           // 1️⃣ 플러그인 엔트리포인트 클래스
+                'Plugin-Key': 'bj.sonar',                            // 2️⃣ 플러그인 식별자 (전역 고유 키)
+                'Plugin-Version': version,                           // 3️⃣ 플러그인 버전
+                'Plugin-Name': 'My Custom Sonar Plugin',             // 4️⃣ 플러그인 이름 (UI에도 표시됨)
+                'Plugin-RequiredForLanguages': 'java'                // 5️⃣ 지원 언어. 없으면 NoClassDefFoundError 발생 가능
         )
     }
 }

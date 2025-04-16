@@ -29,6 +29,13 @@ public class MyCustomRule extends BaseTreeVisitor implements JavaFileScanner {
 
         boolean hasBlockComment = previousLine.trim().startsWith("/**") || previousLine.trim().startsWith("/*");
 
+        // 🔍 디버깅 로그 출력
+        System.out.println(">>> method: " + methodTree.simpleName() +
+                ", line: " + methodLine +
+                ", hasSingleLineComment: " + hasSingleLineComment +
+                ", hasBlockComment: " + hasBlockComment +
+                ", previousLine: \"" + previousLine.trim() + "\"");
+
         if (!hasSingleLineComment && !hasBlockComment) {
             context.reportIssue(this, methodTree.simpleName(), "이 메서드는 // 또는 /* 주석이 없습니다.");
         }
