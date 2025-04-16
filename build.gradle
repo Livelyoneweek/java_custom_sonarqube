@@ -16,7 +16,8 @@ jar {
                 'Plugin-Class': 'sonar.CustomRulesPlugin',
                 'Plugin-Key': 'bj.sonar', // 플러그인 고유 키 지정
                 'Plugin-Version': version,              // 버전 정보
-                'Plugin-Name': 'My Custom Sonar Plugin'  // 플러그인 이름
+                'Plugin-Name': 'My Custom Sonar Plugin',  // 플러그인 이름
+                'Plugin-RequiredForLanguages': 'java' // 🔥
         )
     }
 }
@@ -26,7 +27,6 @@ dependencies {
     compileOnly 'org.sonarsource.sonarqube:sonar-plugin-api-impl:25.3.0.104237'
     // https://mvnrepository.com/artifact/org.sonarsource.java/sonar-java-plugin
     compileOnly 'org.sonarsource.java:sonar-java-plugin:8.11.0.38440'
-//    compileOnly 'org.sonarsource.java:sonar-java-plugin:7.35.0.36332'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'

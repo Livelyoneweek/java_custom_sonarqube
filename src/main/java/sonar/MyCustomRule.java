@@ -3,8 +3,7 @@ package sonar;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.JavaFileScanner;
 import org.sonar.plugins.java.api.JavaFileScannerContext;
-import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
-import org.sonar.plugins.java.api.tree.MethodTree;
+import org.sonar.plugins.java.api.tree.*;
 
 @Rule(key = "MethodMustHaveComment")
 public class MyCustomRule extends BaseTreeVisitor implements JavaFileScanner {
@@ -19,11 +18,21 @@ public class MyCustomRule extends BaseTreeVisitor implements JavaFileScanner {
 
     @Override
     public void visitMethod(MethodTree methodTree) {
-        if (methodTree.firstToken().trivias().isEmpty()) {
-            context.reportIssue(this, methodTree.simpleName(), "이 메서드는 주석이 없습니다.");
+        // 첫 토큰 기준으로 trivia에서 // 주석 존재 여부 확인
+        boolean hasSingleLineComment = methodTree.firstToken().trivias().stream()
+                .map(SyntaxTrivia::comment)
+                .anyMatch(comment -> comment.trim().startsWith("//"));
+
+        // 파일 전체 라인에서 메서드 정의 바로 위 줄 가져옴
+        int methodLine = methodTree.firstToken().range().start().line();
+        String previousLine = context.getFileLines().get(methodLine - 2); // -2: line index는 0-based
+
+        boolean hasBlockComment = previousLine.trim().startsWith("/**") || previousLine.trim().startsWith("/*");
+
+        if (!hasSingleLineComment && !hasBlockComment) {
+            context.reportIssue(this, methodTree.simpleName(), "이 메서드는 // 또는 /* 주석이 없습니다.");
         }
 
-        // 반드시 부모 클래스의 메서드 호출
         super.visitMethod(methodTree);
     }
 }
