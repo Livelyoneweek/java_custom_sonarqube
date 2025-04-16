@@ -1,32 +1,29 @@
 package sonar;
 
 import org.sonar.check.Rule;
-import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
-import org.sonar.plugins.java.api.semantic.Symbol;
+import org.sonar.plugins.java.api.JavaFileScanner;
+import org.sonar.plugins.java.api.JavaFileScannerContext;
+import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
 import org.sonar.plugins.java.api.tree.MethodTree;
-import org.sonar.plugins.java.api.tree.Tree;
 
-import java.util.Collections;
-import java.util.List;
+@Rule(key = "MethodMustHaveComment")
+public class MyCustomRule extends BaseTreeVisitor implements JavaFileScanner {
 
-@Rule(key = "MethodMustHaveComment", name = "Method Must Have Comment", description = "모든 함수는 주석을 달아야 해요")
-public class MyCustomRule extends IssuableSubscriptionVisitor{
+    private JavaFileScannerContext context;
 
     @Override
-    public List<Tree.Kind> nodesToVisit(){
-        return Collections.singletonList(Tree.Kind.METHOD);
+    public void scanFile(JavaFileScannerContext context) {
+        this.context = context;
+        scan(context.getTree());
     }
 
     @Override
-    public void visitNode(Tree tree){
-        MethodTree method = (MethodTree)tree;
-        Symbol.MethodSymbol methodSymbol = method.symbol();
+    public void visitMethod(MethodTree methodTree) {
+        if (methodTree.firstToken().trivias().isEmpty()) {
+            context.reportIssue(this, methodTree.simpleName(), "이 메서드는 주석이 없습니다.");
+        }
 
-        if(methodSymbol.isOverridable()){
-            return;
-        }
-        if(method.firstToken().trivias().isEmpty()){
-            reportIssue(method.simpleName(), "This method doesn't have a comment");
-        }
+        // 반드시 부모 클래스의 메서드 호출
+        super.visitMethod(methodTree);
     }
 }

@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id("org.sonarqube") version "6.1.0.5360"
+    id "org.sonarqube" version "6.0.1.5171"
 }
 
 group = 'my.sonar'
@@ -26,6 +26,7 @@ dependencies {
     compileOnly 'org.sonarsource.sonarqube:sonar-plugin-api-impl:25.3.0.104237'
     // https://mvnrepository.com/artifact/org.sonarsource.java/sonar-java-plugin
     compileOnly 'org.sonarsource.java:sonar-java-plugin:8.11.0.38440'
+//    compileOnly 'org.sonarsource.java:sonar-java-plugin:7.35.0.36332'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
