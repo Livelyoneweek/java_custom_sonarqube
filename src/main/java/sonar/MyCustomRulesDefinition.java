@@ -22,14 +22,21 @@ public class MyCustomRulesDefinition implements RulesDefinition {
                 .setTags("convention", "comments")
                 .setTemplate(false);
 
-        repository.createRule("MethodNameShouldNotStartWithTest")
-                .setName("Method name should not start with 'test'")
-                .setHtmlDescription("메서드 이름이 'test'로 시작하지 않아야 합니다.")
+        repository.createRule("RestControllerMustHaveTag")
+                .setName("Rest Controller Must Have Tag")
+                .setHtmlDescription("컨트롤러 클래스에 Tag 어노테이션을 입력하시기 바랍니다.")
                 .setSeverity("MINOR")
                 .setStatus(RuleStatus.READY)
-                .setTags("naming")
+                .setTags("convention")
                 .setTemplate(false);
 
+        repository.createRule("ApiMethodMustHaveOperation")
+                .setName("Api Method Must Have Operation")
+                .setHtmlDescription("api 메소드에는 operation 어노테이션을 입력하시기 바랍니다.")
+                .setSeverity("MINOR")
+                .setStatus(RuleStatus.READY)
+                .setTags("convention")
+                .setTemplate(false);
 
         repository.done();
     }
