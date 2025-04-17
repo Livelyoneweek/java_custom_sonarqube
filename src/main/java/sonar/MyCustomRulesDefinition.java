@@ -14,13 +14,22 @@ public class MyCustomRulesDefinition implements RulesDefinition {
         NewRepository repository = context.createRepository(REPOSITORY_KEY, "java")
                 .setName("My Custom Sonar Rules");
 
-        repository.createRule("MethodMustHaveComment")
-                .setName("Method Must Have Comment")
-                .setHtmlDescription("모든 함수는 주석을 달아야 해요!")
+        repository.createRule("EmptyCatchBlockRule")
+                .setName("Empty Catch Block Rule")
+                .setHtmlDescription("catch 블록에는, 최소한 로그 출력이나 주석을 작성하세요.")
                 .setSeverity("MINOR") // 경고 레벨
                 .setStatus(RuleStatus.READY)
                 .setTags("convention", "comments")
                 .setTemplate(false);
+
+        repository.createRule("MethodNameShouldNotStartWithTest")
+                .setName("Method name should not start with 'test'")
+                .setHtmlDescription("메서드 이름이 'test'로 시작하지 않아야 합니다.")
+                .setSeverity("MINOR")
+                .setStatus(RuleStatus.READY)
+                .setTags("naming")
+                .setTemplate(false);
+
 
         repository.done();
     }

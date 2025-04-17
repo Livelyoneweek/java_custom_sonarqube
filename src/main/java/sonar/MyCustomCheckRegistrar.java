@@ -1,6 +1,8 @@
 package sonar;
 
 import org.sonar.plugins.java.api.CheckRegistrar;
+import sonar.rule.Rule1EmptyCatchBlockRule;
+import sonar.rule.Rule2;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +15,10 @@ public class MyCustomCheckRegistrar implements CheckRegistrar {
     public void register(RegistrarContext registrarContext) {
         registrarContext.registerClassesForRepository(
                 MyCustomRulesDefinition.REPOSITORY_KEY,
-                List.of(MyCustomRule.class), // 메인 룰
+                List.of(
+                        Rule1EmptyCatchBlockRule.class,
+                        Rule2.class
+                ),
                 Collections.emptyList()      // 테스트 룰
         );
     }
